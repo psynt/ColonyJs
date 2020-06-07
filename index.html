@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Colony</title>
+    <meta name="Colony" content="A game about managing a colony in a post-apocalyptic zombie-ridden world" charset="UTF-8"/>
+</head>
+<body id="body" style="height: 95vh; ">
+    <div id="container" class="container" style="color:#4F5957; text-align:center; font-size: 11px;">
+
+        <div>
+            <p>You have 0 colonists, 0 rations of food and 0 barricades.</p>
+        </div>
+        <div>
+            <form oninput="used.value=parseInt(food.value) + parseInt(barricade.value) + parseInt(fight.value)" onsubmit="alert('Progress')">
+                <fieldset>
+                    <legend>Allocate colonists</legend>
+                    <label for="food">Gather food:</label> <input type="number" name="food" id="food" value="0" min="0"><br/>
+                    <label for="barricade">Build barricades:</label> <input type="number" name="barricade" id="barricade" value="0" min="0"><br/>
+                    <label for="fight">Fight off zombies:</label> <input type="number" name="fight" id="fight" value="0" min="0"><br/>
+                    <label for="used">Total colonists allocated:</label><output id="used" name="used" for="food barricade fight">0</output><br/>
+                    <input type="submit" value="Progress through the night">
+<!--                    <button id="night" onclick="alert('Progress')">Progress through the night.</button>-->
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
