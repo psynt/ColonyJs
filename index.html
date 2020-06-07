@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
     <title>Colony</title>
     <meta name="Colony" content="A game about managing a colony in a post-apocalyptic zombie-ridden world" charset="UTF-8">
-    <script type="text/javascript" src="Logic.js"></script>
+    <script type="text/javascript" src="js/Helpers.js"></script>
+    <script type="text/javascript" src="js/Game.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body id="body" style="height: 95vh; " onload="init()">
@@ -12,7 +12,13 @@
 
         <div>
             <p>Nights survived: <span id="nights">0</span></p>
-            <p>You have <span id="surv">0</span> colonists, <span id="rat">0</span> rations of food and <span id="bar">0</span> barricades.</p>
+            <p>
+                You have
+                <span id="surv">0</span> colonists,
+                <span id="rat">0</span> rations of food,
+                <span id="raw">0</span> uncooked food and
+                <span id="bar">0</span> barricades.
+            </p>
         </div>
         <div>
             <fieldset>
