@@ -15,6 +15,14 @@ function init(){
     $("#report").empty();
     game = {
         colony:{
+            plus: function(second_colony){
+                for (const prop in second_colony){
+                    if(second_colony.hasOwnProperty(prop) && isFinite(second_colony[prop]) && this.hasOwnProperty(prop)) {
+                        this[prop] += parseInt(second_colony[prop]);
+                    }
+                }
+                return this;
+            },
             survivors: 11,
             rations: 20,
             uncooked: 0,
@@ -49,34 +57,57 @@ function passNight(){
     say("===========================");
     say("Day:" + game.night);
 
-    let searchers = $("#search").val();
-    let searchResults = search(parseInt(searchers));
+    let searchResults = search(parseInt($("#search").val()));
     say("Search found " + JSON.stringify(searchResults));
-    game.colony.rations += searchResults.rations;
-    game.colony.survivors += searchResults.survivors;
-    game.colony.uncooked += searchResults.uncooked;
+    game.colony.plus(searchResults);
 
-    debugger;
-    let ck = parseInt($("#cook").val());
-    let cooking = Math.min(parseInt($("#cook").val()), game.colony.uncooked);
-    say("Cooking " + cooking + " raw food into " + cooking * 2 + " rations.");
-    game.colony.uncooked -= cooking;
-    game.colony.rations += cooking * 2;
+    let building = parseInt($("#barricade").val());
+    if (building > 0){
+        say("Building " + building + " new barricades.");
+        game.colony.barricades += building;
+    }
+
+    let cooking = Math.min(2 * parseInt($("#cook").val()), game.colony.uncooked);
+    if (cooking > 0) {
+        say("Cooking " + cooking + " raw food into " + cooking * 3 + " rations.");
+        game.colony.uncooked -= cooking;
+        game.colony.rations += cooking * 2;
+    }
 
     say("Colonists eat " + Math.min(game.colony.survivors, game.colony.rations) + " rations.");
     game.colony.rations -= game.colony.survivors;
     let zombies = roll(game.night, 4, 1);
     say(zombies + " zombies appear.");
-    let totalStrength = game.colony.survivors;
+    let totalStrength = game.colony.survivors + game.colony.barricades;
+    console.log("Zombies:" + zombies + "\nColony strength:" + totalStrength);
+
+    if(game.colony.barricades > 0) {
+        let barricadesDestroyed = roll(1, Math.min(game.colony.barricades, zombies), 0);
+        if (barricadesDestroyed > 0) {
+            say("The zombies manage to destroy " + barricadesDestroyed + " of the colony's barricades.");
+            game.colony.barricades -= barricadesDestroyed;
+        }
+    }
+
+    let res = totalStrength - zombies;
+    if (res === 1 || res === 0){
+        say("You barely manage to hold off the invasion");
+    } else if (res > 0){
+        say("You successfully defend the colony");
+    } else {
+        say(-res + " zombies break through your defenses, killing colonists.");
+        game.colony.survivors += res; //res should be negative
+    }
 
     if (game.colony.rations < 0){
-        let dead = roll(2, Math.floor(-game.colony.rations/2), 1);
         say(-game.colony.rations + " colonists go to bed on an empty stomach.");
+        let dead = Math.min(game.colony.survivors, roll(2, Math.floor(-game.colony.rations/2), 0));
         say(dead + " of them don't wake up again.");
+        game.colony.survivors -= dead;
         game.colony.rations = 0;
     }
 
-    return totalStrength > zombies;
+    return game.colony.survivors > 0;
 }
 
 /**
@@ -85,11 +116,14 @@ function passNight(){
 function play() {
     if(invalidInput())
         return;
+
     if (passNight()) {
         say("You survive another night! Well done!")
         populatePage();
+        invalidInput();
     } else {
         alert("Game Over!");
         init();
+        invalidInput();
     }
 }
