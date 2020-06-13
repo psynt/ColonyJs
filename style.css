@@ -1,0 +1,34 @@
+body{
+    background-color: #FAF7F7;
+}
+
+.container{
+    color:#4F5957;
+    text-align:center;
+    font-size: 11px;
+}
+#alloc{
+    display: inline-grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: 1fr;
+}
+
+#alloc label{
+    grid-column: 1;
+    place-self: center center;
+}
+
+#alloc input{
+    grid-column: 2;
+    place-self: center center;
+}
+
+#alloc output{
+    grid-column: 2;
+    place-self: center center;
+}
+
+#alloc #night{
+    grid-column: 1/ span 2;
+}
+

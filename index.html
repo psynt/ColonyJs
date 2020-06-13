@@ -2,13 +2,18 @@
 <html lang="en">
 <head>
     <title>Colony</title>
-    <meta name="Colony" content="A game about managing a colony in a post-apocalyptic zombie-ridden world" charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="application-name" content="Colony">
+    <meta name="description" content="A game about managing a colony in a post-apocalyptic zombie-ridden world">
+    <meta name="keywords" content="Colony, management, game">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="js/Helpers.js"></script>
     <script type="text/javascript" src="js/Game.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body id="body" style="height: 95vh; " onload="init()">
-    <div id="container" class="container" style="color:#4F5957; text-align:center; font-size: 11px;">
+<body id="body" onload="init()">
+    <div id="container" class="container">
 
         <div>
             <p>Nights survived: <span id="nights">0</span></p>
@@ -20,15 +25,17 @@
                 <span id="bar">0</span> barricades.
             </p>
         </div>
-        <div>
-            <fieldset>
+        <div onchange="invalidInput()">
+            <fieldset id="alloc">
                 <legend>Allocate colonists</legend>
                 <label for="search">Scavenge:</label>
-                    <input onchange="invalidInput()" class="check" type="number" name="search" id="search" value="0" min="0"><br/>
+                    <input class="check" type="number" name="search" id="search" value="0" min="0"><br/>
                 <label for="cook">Cook:</label>
-                    <input onchange="invalidInput()" class="check" type="number" name="cook" id="cook" value="0" min="0"><br/>
+                    <input class="check" type="number" name="cook" id="cook" value="0" min="0"><br/>
                 <label for="barricade">Build barricades:</label>
-                    <input onchange="invalidInput()" class="check" type="number" name="barricade" id="barricade" value="0" min="0"><br/>
+                    <input class="check" type="number" name="barricade" id="barricade" value="0" min="0"><br/>
+                <label for="total">Total colonists allocated:</label>
+                <b><output name="total" id="total" class="total">0</output></b><br/>
                 <button id="night" onclick=play()>Progress through the night.</button>
             </fieldset>
         </div>
